@@ -68,6 +68,12 @@ Skill 不可用时必须明确记录为 `BLOCKED` 或 `NOT_RUN`，不能假装�
 
 实现后对原型和目标页面回放相同交互路径。Structure、Style、Behavior、
 Visual 四类证据全部通过后，才能报告页面还原完成。
+
+必须从交付源码及原型连续宽度变化中发现响应式规律，区分视口、容器、
+内容触发及 DOM 与 CSS 视觉变化，不预设固定设备宽度或测试范围代替探索。
+按发现的规律生成验证点，覆盖区间代表点、转换边界两侧及未用于调试的
+宽度；对原型和目标回放相同条件下的首次加载、宽→窄→宽及交互路径。
+记录状态保留、恢复和未确认范围，不以针对少量宽度的特例判定完成。
 ```
 
 ## 2. 任务分流
@@ -185,6 +191,12 @@ README、截图、HTML、CSS 和 JavaScript 冲突时，只记录各自证据和
 
 所有 `Audit Decision: Triggered` 任务均按适用来源建立本契约；缺 JavaScript 不免除 CSS 交互伪类的运行审计。另形成页面级 Interaction State Graph 和 Cross-control Dependency Graph，覆盖直接、间接及异步影响。
 
+#### Source-driven Responsive Behavior Discovery
+
+所有已触发的页面级审计都必须实际运行原型，执行审计 Skill 的同名章节，包括纯 CSS、无显式断点和固定布局。先从源码及连续宽度变化发现固定量、连续关系、内容换行与布局/节点/交互模式的转换条件，区分视口/容器/内容触发及 DOM 变化/CSS 视觉变化；变化区间加密探测并记录来源、实测值和探索限制。不以预设设备宽度、自定固定测试范围或少量截图代替规律分析，不把工具默认视口当作支持边界。
+
+建立 Responsive Rule Register 和 Responsive State Matrix，依据发现的规律生成各区间代表点、转换边界两侧及未用于调试的宽度。分别记录首次加载与宽→窄→宽切换、状态保留/恢复及跨控件影响，保留 DOM/Mutation/style/geometry/focus/ARIA/Console/截图证据并关联两类图。原型固定布局/窄屏溢出按事实记录，不自行设计新适配冒充还原；无法确认的范围进入 Open Question，关键适配不明为 `BLOCKED`，非关键未覆盖为 `PARTIAL`。
+
 #### Experience Recall
 
 完成当前代码、配置和调用链调查后，AI 必须执行一次受控经验召回。已接受的长期经验使用用户或项目配置的唯一知识库根目录；没有配置时记录无可检索来源，不猜测路径，不得扫描全部历史归档，也不得另建平行的 `.workflow/experience.md`。
@@ -249,6 +261,7 @@ Gate 状态必须持久化在 `task.md` 和 `state.md`：
 - 是否完成交付包与现有项目入口、组件、API adapter、主题配置和状态管理的 `Reuse / Adapt / Add` 映射。
 - `package_fingerprint` 是否仍与当前交付包一致。
 - Structure、Style、Behavior 与 Visual Baseline 是否分别有证据；适用交互是否已在原型实际运行，Interaction State Graph 和 Cross-control Dependency Graph 是否覆盖所有受影响区域。
+- 是否从源码/运行发现响应式规律并建立 Rule Register/Responsive State Matrix；宽度取点是否有规律依据，纯 CSS/固定布局是否运行，首次加载/尺寸切换及未知范围是否有证据。
 - 无法运行或无法解释的行为是否进入 Open Question；关键行为未知时不得通过 Understand Gate。
 
 只有 `Passed` 才能进入 Plan 或 Execute。`Pending` 和 `Needs More Investigation` 回到 Understand；`Blocked` 保存阻塞和恢复信息并暂停。如果需求本身不明确，先向用户确认，不用猜测补齐产品决策。
@@ -322,6 +335,8 @@ Review 必须产出独立的 `review.md`，状态只能是 `PASS`、`CHANGES_REQ
 Verify 必须执行 Understand 中同名契约：以交付包源码和原型实际运行行为为事实基线，逐条对原型和目标页面回放相同的 Interaction State Graph 路径，使用相同视口、输入方式、初始状态和可观察终态。按 Cross-control Dependency Graph 核对全部直接/间接影响区域及恢复、重复操作和异步路径。
 
 每条路径分别保留原型与目标的前、中、后全页面 DOM snapshot、Mutation、受影响元素 computed style、bounding box、`document.activeElement`、ARIA、Console 错误和截图/录屏，并记录差异与已确认的生产适配决策。等待可观察状态条件成立，不以任意固定等待时间代替状态确认。截图相似不能覆盖结构、样式或行为缺失。
+
+响应式验证必须消费 Responsive Rule Register/Responsive State Matrix，按发现的规律选择区间代表点、转换边界两侧及未用于调试的宽度，原型/目标回放相同宽度、容器/内容条件、首次加载与宽→窄→宽序列及交互。核对连续关系、转换条件、DOM/CSS 差异及状态保留/恢复，不以固定设备列表或针对少量宽度的特例代替规律。四类证据包含这些结果，未确认范围不能宣称通过，关键适配未知为 `BLOCKED`，非关键覆盖缺失为 `PARTIAL`。
 
 只有 Structure、Style、Behavior、Visual 四类必要证据均为 `PASS`，才能把页面还原判为 `PASS`。关键行为无法确认时为 `BLOCKED`，非关键行为未覆盖时为 `PARTIAL`；原型无法运行时不得根据静态源码猜测完整行为。完全静态页面的无交互事实需有来源证据，不能以空白行为表冒充通过。用户接受剩余风险不改变四类证据的实际状态，也不能将未通过的页面还原标成 `PASS`。
 

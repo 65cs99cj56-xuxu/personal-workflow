@@ -143,6 +143,12 @@ Verify 使用 AC ID、方法、实际结果、证据和状态，不用 build 代
 
 实现后对原型和目标页面回放相同交互路径。Structure、Style、Behavior、
 Visual 四类证据全部通过后，才能报告页面还原完成。
+
+必须从交付源码及原型连续宽度变化中发现响应式规律，区分视口、容器、
+内容触发及 DOM 与 CSS 视觉变化，不预设固定设备宽度或测试范围代替探索。
+按发现的规律生成验证点，覆盖区间代表点、转换边界两侧及未用于调试的
+宽度；对原型和目标回放相同条件下的首次加载、宽→窄→宽及交互路径。
+记录状态保留、恢复和未确认范围，不以针对少量宽度的特例判定完成。
 ```
 
 自动补全使用 `页面级还原 && HTML && CSS && JavaScript`。审计触发使用 `页面级还原 && HTML && (CSS || JavaScript)`。HTML + CSS 或 HTML + JavaScript 仍可能触发审计；检测器只证明源码资格，页面范围由 Workflow 判断。
@@ -150,6 +156,8 @@ Visual 四类证据全部通过后，才能报告页面还原完成。
 “根据附件还原整个首页，重点检查筛选交互”是完整页面还原；“只修改筛选组件”属于功能级任务。只有截图、HTML-only、仅内联样式/脚本、非还原任务均不自动触发完整源码审计。范围不清先澄清，不因为文件齐全扩大用户任务。
 
 审计分别建立 Structure Contract、Style Contract、Behavior Contract、Cross-control Dependency Graph 与 Visual Baseline。存在 JavaScript、交互伪类或动态 DOM 时，实际运行原型、形成 Interaction State Graph，并追踪触发控件之外的直接/间接影响。
+
+所有已触发的审计还必须执行 Source-driven Responsive Behavior Discovery，纯 CSS 与固定布局也不例外。先从源码和原型连续调宽发现适配规律，再生成 Responsive Rule Register/Responsive State Matrix；不预设固定设备宽度或测试区间。区分 DOM 与 CSS 视觉变化、视口/容器/内容触发，并验证首次加载与宽→窄→宽切换。原型与目标按规律取点并回放，未知范围明确保留。
 
 每条交互保存前、中、后全页面 DOM、Mutation、受影响元素 computed style/bounding box、焦点/ARIA、Console 和截图，按可观察条件等待异步/动画。目标实现按相同路径回放；只有 Structure、Style、Behavior、Visual 四类必要证据均通过才可判还原 `PASS`。截图相似无法替代结构或行为证据；原型不能运行时禁止静态猜测，关键行为未知为 `BLOCKED`，非关键未覆盖为 `PARTIAL`。
 

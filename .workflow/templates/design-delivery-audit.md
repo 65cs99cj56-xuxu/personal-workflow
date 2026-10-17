@@ -108,9 +108,36 @@ Style Contract 覆盖 Design Token、布局几何、computed style、断点、�
 
 ### Asset Inventory
 
+此处的素材与下方响应式规律关联，记录资源切换及裁切变化。
+
 | Asset | Purpose | Intrinsic / Display Size | Ratio / Transparent Area | Crop / Compression | References | Suggested Location | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |  |  |
+
+## Source-driven Responsive Behavior Discovery
+
+从源码和原型实际表现先发现规律，再生成验证宽度。纯 CSS、无显式断点和固定布局也必须运行；不得预填常见设备宽度或把自定区间视为支持范围。
+
+- 探索起点与依据（源码约束 / 用户明确范围）：
+- 实际探索范围、连续调宽与变化区间加密探测记录：
+- 原型运行环境 / viewport 配置 / 控制变量：
+- 未确认或未覆盖范围及 Open Question：
+
+### Responsive Rule Register
+
+| Rule ID / Area | Trigger: Viewport / Container / Content | Fixed / Continuous Rule / Transition Condition | Source Anchor | Observed Range / Sampling Rationale / Measurements | DOM Delta | CSS Visibility / Visual Order / Geometry Delta | Runtime Evidence | Unknowns / Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RR-001 |  |  |  |  |  |  |  | `PASS` / `PARTIAL` / `NOT_RUN` / `BLOCKED` |
+
+区分实际 DOM 重排与仅 CSS 视觉顺序变化；固定布局/窄屏溢出也按来源记录，不自行补造适配。
+
+### Responsive State Matrix
+
+| Case ID / Rule ID | Width / Container / Content Conditions | Selection Rationale: Representative / Boundary Side / Unused In Tuning | Fresh Load / Wide→Narrow→Wide Sequence | State / Interaction / Dependency Graph IDs | Full-page DOM / Mutation Evidence | Computed Style / Bounding Box Evidence | State Retention / Recovery / Overflow / Focus / ARIA | Console / Screenshot Evidence | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RS-001 / RR-001 |  |  |  |  |  |  |  |  | `PASS` / `PARTIAL` / `NOT_RUN` / `BLOCKED` |
+
+首次加载与连续切换分别验证；无 DOM Mutation 也记录证据。取点依据来自规律，覆盖代表点、转换边界两侧和未用于调试的宽度。关联全部必要页面状态/交互路径；目标回放相同条件，未确认范围不宣称通过。
 
 ## Interaction And Animation Specification
 
@@ -236,6 +263,8 @@ IN-001：初始状态 --触发事件/前置条件--> 中间状态 --可观察条
 - [ ] 已逐类读取全部适用来源，并记录实际提取结果。
 - [ ] 已梳理页面、浮层、状态和转换关系。
 - [ ] 主要视觉、响应式、素材、交互和动画规格均有来源锚点。
+- [ ] 已从源码和原型表现发现适配规律并建立 Rule Register/Responsive State Matrix，未用固定设备宽度替代探索。
+- [ ] 已区分 DOM/CSS 变化及视口/容器/内容触发，覆盖首次加载、连续切换、边界两侧和未用于调试的宽度，未知范围明确。
 - [ ] 已分别建立 Structure、Style、Behavior、Cross-control Dependency Graph 与 Visual Baseline。
 - [ ] 适用交互已按 Interaction State Graph 实际运行，直接和间接受影响区域有前/中/后证据。
 - [ ] 无法执行/解释的交互已记入 Open Question，关键行为未知时不通过 Gate。

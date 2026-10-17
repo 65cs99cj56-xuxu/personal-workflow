@@ -28,6 +28,14 @@
 
 ### Source-backed Reconstruction Evidence Contract
 
+先消费审计中的 Responsive Rule Register 和 Responsive State Matrix。验证宽度必须由原型规律派生，不按预设设备列表或自定固定范围替代发现；复现连续关系、转换条件及状态恢复，不以若干宽度的特例实现通过。
+
+| AC / Rule / Case IDs | Discovered Rule / Source Evidence | Width Selection Rationale / Container / Content | Fresh Load / Resize Sequence / Interaction | Prototype Evidence | Target Evidence | DOM Delta vs CSS Visual Delta / Geometry / Focus / ARIA | Uncovered Range / Decision / Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  | 代表点 / 边界两侧 / 未用于调试的宽度 |  |  |  |  | `PASS` / `PARTIAL` / `NOT_RUN` / `BLOCKED` |
+
+原型与目标回放同宽度、容器/内容、首次加载及宽→窄→宽序列和状态路径，关联全页面 DOM、Mutation、computed style/bounding box、焦点/ARIA、Console 与截图。纯 CSS/固定布局也需运行证据；关键适配未知为 BLOCKED，非关键未覆盖为 PARTIAL，不把未探索范围或所有宽度宣称通过。
+
 原型与目标必须按同一 Interaction State Graph 和 Cross-control Dependency Graph 回放相同交互路径，使用一致的视口、输入方式、初始状态与可观察等待条件。引用审计交互 ID 和已确认的生产适配决策。
 
 | AC ID / Interaction ID | Path / Viewport / Input | Prototype Before / Intermediate / After Evidence | Target Before / Intermediate / After Evidence | DOM / Mutation Delta | Computed Style / Bounding Box Delta | Focus / ARIA / Console | Direct / Indirect Effects / Recovery / Repeat | Visual Evidence | Decision / Status |
