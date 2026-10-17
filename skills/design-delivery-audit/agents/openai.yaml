@@ -1,0 +1,3 @@
+interface:
+  display_name: "Design Delivery Audit"
+  short_description: "Audit source-backed packages for page-level reconstruction"
