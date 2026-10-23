@@ -21,8 +21,10 @@
 | 页面还原只看截图 | Source-backed Reconstruction Evidence Contract：Structure、Style、Behavior、依赖图、Visual Baseline 分别留证 | [Workflow](.workflow/WORKFLOW.md)、[审计模板](.workflow/templates/design-delivery-audit.md) |
 | 只验证触发控件，遗漏其他区域 | 强制运行态七步审计、Interaction State Graph、Cross-control Dependency Graph 与 13 列联动表 | [Skill 正文](skills/design-delivery-audit/SKILL.md)、[规范](skills/design-delivery-audit/references/audit-spec.md) |
 | 原型与目标走了不同路径 | 相同路径/视口/初态回放；四类必要证据全通过才可还原 PASS | [验证模板](.workflow/templates/verification.md) |
+| 审计结果到生产代码的映射不够具体 | 计划记录目标项目资源构建规则、语义组件/声明式状态映射和动态几何验证；静态页不补造交互 | [Workflow](.workflow/WORKFLOW.md)、[计划模板](.workflow/templates/plan.md)、[审计模板](.workflow/templates/design-delivery-audit.md) |
+| Vue 页面还原缺少明确的页面级目录映射 | 增加 Vue 专属默认结构：页面集中于 `src/pages/<page-name>/`，根部尽量只留 `App.vue`、`main.ts`、`styles.less`，页面级样式集中在 `styles.less` 并由 `App.vue` 导入；其他内容按职责放入 `components/` 或页面专用子目录；素材放 `assets/`；多文件组件按组件建子目录，且目标项目约定优先；React 不适用 | [Workflow](.workflow/WORKFLOW.md)、[计划模板](.workflow/templates/plan.md)、[审计 Skill](skills/design-delivery-audit/SKILL.md) |
 | 用户必须重复输入完整还原要求 | HTML/CSS/JS 齐全且要求完整页面还原时自动补全 Effective Reconstruction Prompt | [Workflow](.workflow/WORKFLOW.md)、[入口](SKILL.md) |
-| 生成的过程文件进入业务版本管理 | 首次生成 .workflow 时处理已有 .gitignore；无文件则跳过、不新建 | [入口](SKILL.md)、[任务初始化记录](.workflow/templates/task.md) |
+| 生成的过程文件进入业务版本管理 | 首次生成 .workflow 时确保根目录 .gitignore 忽略该目录；无文件则自动创建；已有跟踪不自动取消 | [入口](SKILL.md)、[Workflow](.workflow/WORKFLOW.md)、[任务初始化记录](.workflow/templates/task.md) |
 | 产物语言与分发范围不明确 | 中文为主，固定标识保留；分发资源与用户活动材料分开 | [Workflow](.workflow/WORKFLOW.md)、[README](README.md) |
 
 ## 使用者可以观察到什么
@@ -35,4 +37,4 @@
 
 检测器的单元测试、Skill validator、原文契约比对、Markdown 链接与分发文件检查用于验证本次核心包；Git 忽略协议另以临时仓库的真实匹配结果核对。具体执行结果保存在本次任务证据中，不把仓库测试宣传为业务页面 E2E 通过。
 
-本次未新增通用浏览器采集器或后台调度服务。首次忽略规则由 Agent 在初始化时执行；.gitignore 不取消既有 Git 跟踪。用户项目自己的 .workflow 可忽略，分发包中的 Workflow 与模板仍保留供安装使用。
+本次未新增通用浏览器采集器或后台调度服务。首次忽略规则由 Agent 在初始化时执行；必要时自动创建根目录 .gitignore，但不自动取消既有 Git 跟踪。用户项目自己的 .workflow 可忽略，分发包中的 Workflow 与模板仍保留供安装使用。

@@ -16,7 +16,7 @@
 | 事实调查 | 区分事实、推断与未知项，受控召回已有经验 | [任务模板](.workflow/templates/task.md) |
 | 人工 Gate | 未理解清楚不能执行；正式计划须确认 | [计划模板](.workflow/templates/plan.md) |
 | 可核验 Skill 执行 | 记录配置路径、真实路径、时间、状态、证据和用途；重试只追加 | [全局入口](SKILL.md) |
-| 页面还原审计 | 源码和原型运行行为建立结构、样式、行为、依赖与视觉基线 | [审计 Skill](skills/design-delivery-audit/SKILL.md)、[审计模板](.workflow/templates/design-delivery-audit.md) |
+| 页面还原审计 | 源码和原型运行行为建立结构、样式、行为、依赖与视觉基线；计划补齐目标工程资源规则、组件/状态映射和几何定位验证 | [审计 Skill](skills/design-delivery-audit/SKILL.md)、[审计模板](.workflow/templates/design-delivery-audit.md)、[计划模板](.workflow/templates/plan.md) |
 | Review 与 Verify | 独立产出审查结果，再按 AC 验证实际行为 | [Review](.workflow/templates/review.md)、[验证模板](.workflow/templates/verification.md) |
 | 暂停与恢复 | 保存阻塞、依赖、恢复条件及下一步 | [状态模板](.workflow/templates/state.md) |
 | Feedback | 每个任务生成反馈；候选经审核才进入知识库 | [反馈模板](.workflow/templates/feedback.md) |
@@ -68,7 +68,7 @@ git clone https://github.com/65cs99cj56-xuxu/personal-workflow.git \
 └── archive/
 ```
 
-首次创建 `.workflow/` 时，必须立即检查项目已有的 `.gitignore` **文件**：追加或确认有效的 `.workflow/` 忽略项并避免重复，检查后续否定规则。没有 `.gitignore` 文件则跳过，不新建文件。处理结果记录在任务中；不自动移除已跟踪文件，恢复既有目录不重复初始化。
+首次创建 `.workflow/` 时，必须立即确保项目根目录 `.gitignore` 有效忽略 `.workflow/`：已有文件则保留原内容并追加或确认规则、检查后续否定规则；文件不存在则新建并写入 `.workflow/`。同名路径若不是普通文件则记录阻塞，不覆盖。Git 项目用 `git check-ignore --no-index` 验证目录及代表性子路径。处理结果记录在任务中；忽略规则不会取消已跟踪文件的跟踪，不自动改动 Git 索引，恢复既有目录不重复初始化。
 
 使用者项目的 `.workflow/` 是本地过程材料；本分发仓库中的 `.workflow/WORKFLOW.md` 和模板则是安装资源，需要保留在包中。
 
@@ -92,7 +92,7 @@ git clone https://github.com/65cs99cj56-xuxu/personal-workflow.git \
 软件研发任务先读取 .workflow/current-task.md 和 .workflow/WORKFLOW.md。
 恢复未完成任务，自动判断复杂度并加载各阶段 Skill。
 Understand Gate 只有 Passed 才能继续；正式计划须等待人工确认。
-首次生成 .workflow 时，已有 .gitignore 文件就有效忽略 .workflow/；没有则跳过。
+首次生成 .workflow 时，确保项目根目录 .gitignore 有效忽略 .workflow/；不存在则创建。
 保存 Skill 的配置/真实路径、执行时间、证据和用途，历史记录只追加。
 Verify 使用 AC ID、方法、实际结果、证据和状态，不用 build 代替全部验证。
 适用时生成 review.md，每个任务必须生成 feedback.md 后才结束。
@@ -162,6 +162,8 @@ Visual 四类证据全部通过后，才能报告页面还原完成。
 每条交互保存前、中、后全页面 DOM、Mutation、受影响元素 computed style/bounding box、焦点/ARIA、Console 和截图，按可观察条件等待异步/动画。目标实现按相同路径回放；只有 Structure、Style、Behavior、Visual 四类必要证据均通过才可判还原 `PASS`。截图相似无法替代结构或行为证据；原型不能运行时禁止静态猜测，关键行为未知为 `BLOCKED`，非关键未覆盖为 `PARTIAL`。
 
 审计期间不写业务实现。审计报告还要区分已确认事实、设计意图、原型机制、生产建议与待确认问题，对齐现有项目能力。Plan 必须消费审计结果，作出 `Keep / Adapt / Replace / Exclude` 决策，并保留 Workflow 的 11 个实施/验证阶段。交付包指纹变化须回到 Understand。
+
+Plan 还要把已确认的目标工程约定和 SVG/图片/字体资源解析方式、源码行为到语义组件与声明式状态/actions/props/events 的映射写入计划。按职责拆分而非按 DOM 节点机械切分，避免无理由的整页单体；几何依赖控件须列定位参照与验证条件；静态页面不得臆造交互。Vue 页面默认按单页集中在 `src/pages/<page-name>/`，根部尽量只留 `App.vue`、`main.ts`、`styles.less`；页面级样式写在 `styles.less` 并由 `App.vue` 导入，不写入其 `<style>`；其他内容按职责放在页面 `components/` 或专用功能子目录，页面素材置于 `assets/`，多文件组件在 `components/` 下使用自己的子目录。以目标项目实际约定为先，三个根级文件不要求每页齐全；React 不适用此目录建议。
 
 ## 状态、产物和知识库
 

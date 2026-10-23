@@ -70,7 +70,7 @@ python3 <resolved-design-delivery-audit-dir>/scripts/detect_delivery_package.py 
 5. 必须实际运行原始交付页面，执行 Source-driven Responsive Behavior Discovery；纯 CSS 或固定布局页面也不能跳过。存在 JavaScript、交互伪类或动态 DOM 行为时，还必须执行 Runtime Interaction And Cross-control Audit。记录启动命令、环境、视口与实际结果。原型无法运行时禁止用静态源码推断完整行为，关键行为不明为 `BLOCKED`，非关键覆盖缺失为 `PARTIAL`；不得因此修改目标业务代码。
 6. 从 HTML/CSS/JavaScript 源码提取页面结构、状态、响应式、交互和动画规格。每一项写明来源文件及选择器、函数、变量、事件处理器或行号锚点。
 7. 对照 README、截图与源码，登记版本差异、过时说明和冲突。不得自行设定来源优先级。
-8. 调查目标项目入口、组件、API adapter、主题配置和状态管理，形成 `Reuse / Adapt / Add` 映射。
+8. 调查目标项目入口、组件、API adapter、主题配置和状态管理，形成 `Reuse / Adapt / Add` 映射；同时检查框架/语言、样式和组件约定，以及 SVG、字体、图片的 alias、loader、plugin 和实际构建解析方式。Vue 页面还原需记录页面目录、页面根文件、页面级样式归属、功能/组件和图片/视频素材的目标位置，并判断多文件组件是否应使用组件子目录；默认建议是页面集中于 `src/pages/<page-name>/`，根部尽量只放 `App.vue`、`main.ts`、`styles.less`，页面级样式在 `styles.less` 中维护并由 `App.vue` 导入，其他内容按职责放入 `components/` 或页面下的专用功能子目录，素材放 `assets/`。组件局部样式按项目约定处理。项目约定优先，且不要求三个根级文件必须齐全。此目录建议不应用于 React。所有结论引用目标项目配置或代码锚点。
 9. 按任务模板生成 `design-delivery-audit.md`，并把关键事实、风险、未知项和 AC 回填 `task.md`。
 10. 对照 Audit Gate Checklist 自检；只有满足 Gate 才能将审计结果标记为 `PASS`。
 
@@ -164,6 +164,7 @@ CSS 或 JavaScript 其中一类不存在时仍可触发：
 - [ ] 正式要求、设计意图、原型机制、演示数据和待接入内容已区分。
 - [ ] README、截图和源码冲突已登记；关键冲突已有人工决定。
 - [ ] 已完成与目标项目的 `Reuse / Adapt / Add` 映射。
+- [ ] 已从项目配置确认框架/语言、样式/组件约定和 SVG/字体/图片资源解析方式；未知项已保留为 Open Question。
 - [ ] 风险、未知项、生产验收建议和不进入生产的原型行为已明确。
 - [ ] 审计过程未修改业务代码。
 

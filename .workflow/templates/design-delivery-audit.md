@@ -52,6 +52,19 @@
 | Target devices |  |  |  |
 | Browser / system / WebView |  |  |  |
 
+### Target Project Organization
+
+记录目标项目的框架及页面、组件、素材目录约定。若目标为 Vue，说明该页面是否适合集中到 `src/pages/<page-name>/`，并以页面目录根部尽量只保留 `App.vue`、`main.ts`、`styles.less` 为默认建议；页面级样式集中在 `styles.less` 并由 `App.vue` 导入，默认不写入 `App.vue` 的 `<style>`；组件局部样式仍按组件职责和项目规范组织。其他内容按职责决定放在 `components/` 或页面目录下职责明确的功能子目录。记录页面专属组件与图片/视频等素材的位置，以及多文件组件是否按组件建立独立子目录。默认示例不要求每页必须具备全部三个根级文件，也不排斥有依据的其他根级文件。必须引用路由、目录、构建配置或现有页面代码证据。已有项目约定优先于默认目录建议；React 标记为 `Not Applicable`，不据此规定 React 目录结构。
+
+| Concern | Confirmed Convention / Proposed Vue Default | Evidence / Anchor | Adaptation / Open Question |
+| --- | --- | --- | --- |
+| Page directory | Vue default: `src/pages/<page-name>/` |  |  |
+| Page root files | Vue default: keep root files to `App.vue`, `main.ts`, `styles.less` where applicable |  |  |
+| Page style ownership | Vue default: page-level rules in `styles.less`, imported by `App.vue`; component-local styles follow project conventions |  |  |
+| Page feature organization | Vue default: choose page-local `components/` or a purpose-specific page subdirectory based on responsibility |  |  |
+| Page components | Vue default: page-local `components/`; multi-file component gets its own subdirectory |  |  |
+| Page assets | Vue default: page-local `assets/`, optionally grouped by type |  |  |
+
 ### Pages, Overlays And States
 
 | Page / Module | State / Overlay | Entry Condition | Exit / Transition | Requirement Type | Source / Anchor |
@@ -201,6 +214,16 @@ IN-001：初始状态 --触发事件/前置条件--> 中间状态 --可观察条
 | --- | --- | --- | --- | --- |
 |  |  | `Reuse` / `Adapt` / `Add` |  |  |
 
+### Target Project Build And Asset Contract
+
+| Concern | Confirmed Rule | Target Project Source / Anchor | Production Application | Unknown / Risk |
+| --- | --- | --- | --- | --- |
+| Framework / Language |  |  |  |  |
+| Styling / Component Convention |  |  |  |  |
+| SVG Resolution: URL / Component / Sprite / Other |  |  |  |  |
+| Image / Font Aliases, Loaders, Plugins |  |  |  |  |
+| Resource Destination / Build Constraints |  |  |  |  |
+
 ### Prototype Technology Decisions
 
 | Prototype Mechanism / Data | Decision | Production Replacement / Constraint | Reason | Owner |
@@ -271,6 +294,7 @@ IN-001：初始状态 --触发事件/前置条件--> 中间状态 --可观察条
 - [ ] 已区分正式要求、设计意图、原型机制、演示数据和待接入内容。
 - [ ] 已登记版本差异与冲突，关键冲突已获人工决定。
 - [ ] 已完成目标项目 `Reuse / Adapt / Add` 映射。
+- [ ] 已记录目标项目资源解析规则及证据锚点，未确认项未被当作事实。
 - [ ] 已识别风险、未知项和生产验收建议。
 - [ ] 审计期间未修改业务代码。
 

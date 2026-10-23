@@ -25,8 +25,8 @@
 ## 首次初始化记录
 
 - `.workflow/` 创建前是否存在：
-- 项目根目录 `.gitignore` 文件是否存在：
-- Ignore setup：`Added` / `Already Ignored` / `Skipped — No .gitignore` / `Not Applicable — Existing .workflow` / `BLOCKED`
+- 项目根目录 `.gitignore` 创建前状态：`Exists` / `Created` / `Path Conflict`
+- Ignore setup：`Added` / `Already Ignored` / `Not Applicable — Existing .workflow` / `BLOCKED`
 - 有效规则、Git 忽略检查或跳过证据：
 - 已跟踪文件与恢复动作（不自动取消跟踪）：
 

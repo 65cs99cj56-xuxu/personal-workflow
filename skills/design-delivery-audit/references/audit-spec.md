@@ -16,6 +16,10 @@
 
 状态使用 `PASS / PARTIAL / NOT_RUN / BLOCKED`。文件存在但未读取内容不能标记 `PASS`。
 
+## 1.1 Target Project Organization
+
+调查目标项目的框架、路由和实际目录约定。对 Vue 页面还原，记录单页目录、页面根文件、页面级样式归属、功能/组件、多文件组件和图片/视频素材的落点，并引用现有页面、路由或构建配置证据。项目没有相应约定时，默认建议为 `src/pages/<page-name>/`，根部尽量只保留 `App.vue`、`main.ts`、`styles.less`；页面级样式集中写入 `styles.less` 并由 `App.vue` 导入，默认不在 `App.vue` 的 `<style>` 中维护页面级样式；组件局部样式按组件职责组织。其他内容按职责放入 `components/` 或页面下职责明确的功能子目录。多文件组件在 `components/` 下建立组件级子目录，页面专属素材放入 `assets/`。三个根级文件是建议的默认形态，不要求每页必须齐全，也不排斥有理由的其他根级文件。已有项目约定优先，冲突时适配项目并说明理由。该默认建议仅针对 Vue，React 标记为 `Not Applicable`，不推导 React 的目录组织方式。
+
 ## 2. Delivery Scope
 
 - 设计基准尺寸、目标设备、浏览器、操作系统和 WebView 范围。
@@ -119,6 +123,8 @@ Interaction State Graph 的节点记录页面及控件状态，边记录 Trigger
 
 ## 6. Project Mapping
 
+先从目标项目入口、配置和现有组件确认框架/语言、样式方案、组件组织约定、公共组件边界及状态管理，再将交付包模块映射到目标项目。对 SVG、字体、图片，核对 alias、loader、plugin 和构建规则，确认其实际作为 URL、组件、sprite 或其他形式解析；不得仅按扩展名推断用法。
+
 将交付包模块映射到目标项目：
 
 | Delivery Module | Existing Entry / Component / Adapter / Store / Theme | Decision | Reason | Production Notes |
@@ -128,6 +134,7 @@ Interaction State Graph 的节点记录页面及控件状态，边记录 Trigger
 同时形成：
 
 - 页面模块和公共组件清单。
+- 目标项目框架、样式、组件约定及资源构建/引用规则的证据清单。
 - Design Token 和主题配置清单。
 - 页面状态矩阵与转换图。
 - 素材清单及建议存放位置。
